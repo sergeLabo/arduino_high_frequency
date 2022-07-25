@@ -11,7 +11,7 @@ volatile boolean process_it;
 
 void setup (void)
 {
-  Serial.begin (115200);   // debugging
+  Serial.begin (19200);   // debugging
 
   // turn on SPI in slave mode
   SPCR |= bit (SPE);
@@ -39,7 +39,8 @@ byte c = SPDR;  // grab byte from SPI Data Register
     buf [pos++] = c;
 
   // example: newline means time to process buffer
-  if (c == '\n')
+  // 5 au lieu de newline
+  if (c == '5')
     process_it = true;
 
 }  // end of interrupt routine SPI_STC_vect

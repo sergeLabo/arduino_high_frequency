@@ -1,11 +1,11 @@
-from time import time, sleep, nanosleep
+from time import time, sleep
 import pigpio
 
 pi = pigpio.pi()
 
 
 HANDLE = pi.spi_open(0, 40000)
-SS = 10  # Pin du SS
+SS = 8  # Pin du SS sur la Pi
 
 # Disable Slave Select
 pi.write(SS, 1)
@@ -13,9 +13,15 @@ pi.write(SS, 1)
 
 def transfer_and_wait(what):
     global HANDLE
-    n, a = pi.spi_xfer(HANDLE, what)
-    nanosleep(20000)  # 20 microsecond
-    return a
+
+    a = str(what).encode()
+    print("envoi", a, type(a))
+
+    n, b = pi.spi_xfer(HANDLE, a)
+    print("reçu:", b)
+
+    sleep(0.002)  # (0.000002)  # 20 microsecond
+    return b
 
 def main():
     """
@@ -76,5 +82,5 @@ def main():
 
 main()
 
-pi.spi_close(h)
+pi.spi_close(HANDLE)
 pi.stop()

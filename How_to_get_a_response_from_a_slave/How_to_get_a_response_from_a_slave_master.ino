@@ -7,7 +7,7 @@
 
 void setup (void)
 {
-  Serial.begin (115200);
+  Serial.begin (19200);
   Serial.println ();
 
   digitalWrite(SS, HIGH);  // ensure SS stays high for now
